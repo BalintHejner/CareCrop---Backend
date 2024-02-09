@@ -4,7 +4,14 @@
 
     include "auth.php";
 
+    session_start();
     header("Content-Type: application/json");
+
+    if ($_SESSION["username"])
+    {
+        echo "{\"error\": \"You are already logged in\"}";
+        die();
+    }    
 
     if (!empty($_REQUEST["username"]) || !empty($_REQUEST["email"])
        || !empty($_REQUEST["password"]))
