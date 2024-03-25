@@ -6,7 +6,7 @@
     session_start();
     header("Content-Type: application/json");
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && $_SESSION["admin"])
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["username"]))
     {
 
         $sql = "SELECT COUNT(id) FROM products;";
@@ -20,7 +20,7 @@
         $sql = "INSERT INTO products VALUES ('" . $id . "', '" . $sanitized_season . "', '" . $sanitized_name . "', '" . $sanitized_quality . "', '" . $sanitized_price . "');";
         $conn->query($sql);
     }
-    else if ($_SERVER["REQUEST_METHOD"] == "DELETE" && $_SESSION["admin"])
+    else if ($_SERVER["REQUEST_METHOD"] == "DELETE" && isset($_SESSION["username"]))
     {
         $sql = "DELETE FROM products WHERE id = " . $_REQUEST["id"] . ";";
         $conn->query($sql);
