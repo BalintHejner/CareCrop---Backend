@@ -6,7 +6,7 @@
     session_start();
     header("Content-Type: application/json");
 
-    if ($_SESSION["username"])
+    if (isset($_SESSION["username"]))
     {
         echo "{\"error\": \"You are already logged in\"}";
         die();
