@@ -8,7 +8,7 @@
 
     if (isset($_SESSION["username"]))
     {
-        echo "{\"error\": \"You are already logged in\"}";
+        echo "{\"error\": \"Ön már bejelentkezett!\"}";
         die();
     }    
 
@@ -19,7 +19,7 @@
 
     if ($user_exists === NULL)
     {
-        echo "{\"error\": \"Invalid username\"}";
+        echo "{\"error\": \"Érvénytelen felhasználónév!\"}";
         die();
     }
 
@@ -37,5 +37,5 @@
         echo "{\"success\": true}";
     }
     else
-        echo "{\"error\": \"Invalid password\"}";
+        echo "{\"error\": \"Érvénytelen jelszó!\"}";
 ?>

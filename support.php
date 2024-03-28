@@ -8,7 +8,7 @@
 
     if (!isset($_SESSION["username"]))
     {
-        echo "{\"error\": \"You are not logged in\"}";
+        echo "{\"error\": \"Nincs bejelentkezve!\"}";
         die();
     }    
 

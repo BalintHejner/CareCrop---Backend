@@ -9,7 +9,7 @@
 
     if (isset($_SESSION["username"]))
     {
-        echo "{\"error\": \"You are already logged in\"}";
+        echo "{\"error\": \"Ön már be van jelentkezve\"}";
         die();
     }    
 
@@ -20,12 +20,19 @@
         $sanitized_email = trim(htmlspecialchars($_REQUEST["email"]));
         $hashed_password = password_hash($_REQUEST["password"], PASSWORD_BCRYPT, ["cost" => 10]);
     
-        $sql = "SELECT username FROM users WHERE username = '" . $sanitized_name . "';";
-        $user_duplicate = $conn->query($sql)->fetch_assoc();
+        $sqlUsername = "SELECT username FROM users WHERE username = '" . $sanitized_name . "';";
+        $sqlEmail = "SELECT username FROM users WHERE email = '" . $sanitized_email . "';";
+        $user_duplicate = $conn->query($sqlUsername)->fetch_assoc();
+        $email_duplicate = $conn->query($sqlEmail)->fetch_assoc();
 
         if ($user_duplicate !== NULL)
         {
-            echo "{\"error\": \"Username taken\"}";
+            echo "{\"error\": \"A felhasználónév már létezik!\"}";
+            die();
+        }
+        if ($email_duplicate !== NULL)
+        {
+            echo "{\"error\": \"Ezzel az email címmel már létezik fiók!\"}";
             die();
         }
 
@@ -39,7 +46,7 @@
     }
     else
     {
-        echo "{\"error\": \"Invalid form\"}";
+        echo "{\"error\": \"Érvénytelen adatok!\"}";
     }
 
 
