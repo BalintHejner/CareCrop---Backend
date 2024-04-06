@@ -6,7 +6,7 @@
     session_start();
     header("Content-Type: application/json");
 
-    if (isset($_SESSION["admin"]))
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["username"]))
     {
 
         $sql = "SELECT COUNT(id) FROM manufacturers;";
@@ -17,7 +17,26 @@
         $sanitized_phone = trim(htmlspecialchars($_REQUEST["phone"]));
         $sanitized_banking = trim(htmlspecialchars($_REQUEST["banking"]));
 
-        $sql = "INSERT INTO products VALUES ('" . $id . "', '" . $sanitized_name . "', '" . $sanitized_address . "', '" . $sanitized_phone . "', '" . $sanitized_banking . "');";
-        cconn->query($sql);
+        $sql = "INSERT INTO manufacturers VALUES ('" . $id . "', '" . $sanitized_name . "', '" . $sanitized_address . "', '" . $sanitized_phone . "', '" . $sanitized_banking . "');";
+        $conn->query($sql);
+
+        echo "{\"success\": true}";
+    }
+    else if ($_SERVER["REQUEST_METHOD"] == "DELETE" && isset($_SESSION["username"]))
+    {
+        $sql = "DELETE FROM manufacturers WHERE id = " . $_REQUEST["id"] . ";";
+        $conn->query($sql);
+
+        echo "{\"success\": true}";
+    }
+    else if ($_SERVER["REQUEST_METHOD"] == "GET")
+    {
+        $sql = "SELECT * FROM manufacturers;";
+        $results = array();
+        $result = $conn->query($sql);
+        while($row = $result->fetch_assoc()) 
+            array_push($results, $row);
+
+        echo json_encode($results, true);
     }
 ?>

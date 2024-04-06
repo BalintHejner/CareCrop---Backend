@@ -6,7 +6,7 @@
     session_start();
     header("Content-Type: application/json");
 
-    if (isset($_SESSION["admin"]))
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["username"]))
     {
 
         $sql = "SELECT COUNT(id) FROM bases;";
@@ -14,7 +14,26 @@
 
         $sanitized_address = trim(htmlspecialchars($_REQUEST["address"]));
 
-        $sql = "INSERT INTO products VALUES ('" . $id . "', '" . $sanitized_address . "');";
-        cconn->query($sql);
+        $sql = "INSERT INTO bases VALUES ('" . $id . "', '" . $sanitized_address . "');";
+        $conn->query($sql);
+
+        echo "{\"success\": true}";
+    }
+    else if ($_SERVER["REQUEST_METHOD"] == "DELETE" && isset($_SESSION["username"]))
+    {
+        $sql = "DELETE FROM bases WHERE id = " . $_REQUEST["id"] . ";";
+        $conn->query($sql);
+
+        echo "{\"success\": true}";
+    }
+    else if ($_SERVER["REQUEST_METHOD"] == "GET")
+    {
+        $sql = "SELECT * FROM bases;";
+        $results = array();
+        $result = $conn->query($sql);
+        while($row = $result->fetch_assoc()) 
+            array_push($results, $row);
+
+        echo json_encode($results, true);
     }
 ?>

@@ -12,18 +12,22 @@
         $sql = "SELECT COUNT(id) FROM products;";
         $id = array_values($conn->query($sql)->fetch_assoc())[0];
         
-        $sanitized_season = trim(htmlspecialchars($_POST["season"]));
-        $sanitized_name = trim(htmlspecialchars($_POST["name"]));
-        $sanitized_quality = trim(htmlspecialchars($_POST["quality"]));
-        $sanitized_price = (int)trim(htmlspecialchars($_POST["price"]));
+        $sanitized_season = trim(htmlspecialchars($_REQUEST["season"]));
+        $sanitized_name = trim(htmlspecialchars($_REQUEST["name"]));
+        $sanitized_quality = trim(htmlspecialchars($_REQUEST["quality"]));
+        $sanitized_price = (int)trim(htmlspecialchars($_REQUEST["price"]));
 
         $sql = "INSERT INTO products VALUES ('" . $id . "', '" . $sanitized_season . "', '" . $sanitized_name . "', '" . $sanitized_quality . "', '" . $sanitized_price . "');";
         $conn->query($sql);
+
+        echo "{\"success\": true}";
     }
     else if ($_SERVER["REQUEST_METHOD"] == "DELETE" && isset($_SESSION["username"]))
     {
         $sql = "DELETE FROM products WHERE id = " . $_REQUEST["id"] . ";";
         $conn->query($sql);
+
+        echo "{\"success\": true}";
     }
     else if ($_SERVER["REQUEST_METHOD"] == "GET")
     {
