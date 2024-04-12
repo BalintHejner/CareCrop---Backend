@@ -39,12 +39,30 @@
             die();
         }
 
+        if (1 > strlen($sanitized_name) || strlen($sanitized_name) > 256)
+        {
+            echo "{\"error\": \"Nem megfelelő hosszúságú név!\"}";
+            die();
+        }
+
+        if (1 > strlen($sanitized_email) || strlen($sanitized_email) > 256)
+        {
+            echo "{\"error\": \"Nem megfelelő hosszúságú email!\"}";
+            die();
+        }
+
         $sql = "SELECT COUNT(username) FROM users;";
         $id = array_values($conn->query($sql)->fetch_assoc())[0];
 
         $sql = "INSERT INTO users VALUES ('" . $id . "', '" . $sanitized_name . "', '" . $sanitized_email . "', '0', '" . date('Y-m-d H:i:s') . "', '" . $hashed_password . "');";
-        $conn->query($sql);
-
+        
+        try {
+            $conn->query($sql);
+        } catch (Exception $e) {
+            echo "{\"success\": false}";
+            die();
+        }
+        
         echo "{\"success\": true}";
     }
     else

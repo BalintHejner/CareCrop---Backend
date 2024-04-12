@@ -22,7 +22,12 @@
     $id = array_values($conn->query($sql)->fetch_assoc())[0];
 
     $sql = "INSERT INTO support VALUES ('" . $id . "', '" . $_SESSION["id"] . "', '" . $sanitized_message . "', '" . $sanitized_type . "');";
-    $conn->query($sql);
+    try {
+        $conn->query($sql);
+    } catch (Exception $e) {
+        echo "{\"success\": false}";
+        die();
+    }
 
     echo "{\"success\": true}";
 ?>

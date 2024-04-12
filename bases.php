@@ -18,14 +18,24 @@
         $sanitized_address = trim(htmlspecialchars($_REQUEST["address"]));
 
         $sql = "INSERT INTO bases VALUES ('" . $id . "', '" . $sanitized_address . "');";
-        $conn->query($sql);
+        try {
+            $conn->query($sql);
+        } catch (Exception $e) {
+            echo "{\"success\": false}";
+            die();
+        }
 
         echo "{\"success\": true}";
     }
     else if ($_SERVER["REQUEST_METHOD"] == "DELETE" && isset($_SESSION["username"]))
     {
         $sql = "DELETE FROM bases WHERE id = " . $_REQUEST["id"] . ";";
-        $conn->query($sql);
+        try {
+            $conn->query($sql);
+        } catch (Exception $e) {
+            echo "{\"success\": false}";
+            die();
+        }
 
         echo "{\"success\": true}";
     }
@@ -33,7 +43,11 @@
     {
         $sql = "SELECT * FROM bases;";
         $results = array();
-        $result = $conn->query($sql);
+        try {
+            $result = $conn->query($sql);
+        } catch (Exception $e) {
+            echo "{\"success\": false}";
+        }
         while($row = $result->fetch_assoc()) 
             array_push($results, $row);
 

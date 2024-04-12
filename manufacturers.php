@@ -21,14 +21,24 @@
         $sanitized_banking = trim(htmlspecialchars($_REQUEST["banking"]));
 
         $sql = "INSERT INTO manufacturers VALUES ('" . $id . "', '" . $sanitized_name . "', '" . $sanitized_address . "', '" . $sanitized_phone . "', '" . $sanitized_banking . "');";
-        $conn->query($sql);
+        try {
+            $conn->query($sql);
+        } catch (Exception $e) {
+            echo "{\"success\": false}";
+            die();
+        }
 
         echo "{\"success\": true}";
     }
     else if ($_SERVER["REQUEST_METHOD"] == "DELETE" && isset($_SESSION["username"]))
     {
         $sql = "DELETE FROM manufacturers WHERE id = " . $_REQUEST["id"] . ";";
-        $conn->query($sql);
+        try {
+            $conn->query($sql);
+        } catch (Exception $e) {
+            echo "{\"success\": false}";
+            die();
+        }
 
         echo "{\"success\": true}";
     }
@@ -36,7 +46,12 @@
     {
         $sql = "SELECT * FROM manufacturers;";
         $results = array();
-        $result = $conn->query($sql);
+        try {
+            $result =$conn->query($sql);
+        } catch (Exception $e) {
+            echo "{\"success\": false}";
+            die();
+        }
         while($row = $result->fetch_assoc()) 
             array_push($results, $row);
 

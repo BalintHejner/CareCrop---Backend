@@ -21,14 +21,24 @@
         $sanitized_price = (int)trim(htmlspecialchars($_REQUEST["price"]));
 
         $sql = "INSERT INTO products VALUES ('" . $id . "', '" . $sanitized_season . "', '" . $sanitized_name . "', '" . $sanitized_quality . "', '" . $sanitized_price . "');";
-        $conn->query($sql);
+        try {
+            $conn->query($sql);
+        } catch (Exception $e) {
+            echo "{\"success\": false}";
+            die();
+        }
 
         echo "{\"success\": true}";
     }
     else if ($_SERVER["REQUEST_METHOD"] == "DELETE" && isset($_SESSION["username"]))
     {
         $sql = "DELETE FROM products WHERE id = " . $_REQUEST["id"] . ";";
-        $conn->query($sql);
+        try {
+            $conn->query($sql);
+        } catch (Exception $e) {
+            echo "{\"success\": false}";
+            die();
+        }
 
         echo "{\"success\": true}";
     }
@@ -36,7 +46,12 @@
     {
         $sql = "SELECT * FROM products;";
         $results = array();
-        $result = $conn->query($sql);
+        try {
+            $result = $conn->query($sql);
+        } catch (Exception $e) {
+            echo "{\"success\": false}";
+            die();
+        }
         while($row = $result->fetch_assoc()) 
             array_push($results, $row);
 
