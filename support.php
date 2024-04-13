@@ -12,6 +12,7 @@
     if (!isset($_SESSION["username"]))
     {
         echo "{\"error\": \"Nincs bejelentkezve!\"}";
+        http_response_code(401);
         die();
     }    
 

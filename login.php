@@ -12,6 +12,7 @@
     if (isset($_SESSION["username"]))
     {
         echo "{\"error\": \"Ön már bejelentkezett!\"}";
+        http_response_code(400);
         die();
     }    
 
@@ -23,6 +24,7 @@
     if ($user_exists === NULL)
     {
         echo "{\"error\": \"Érvénytelen felhasználónév!\"}";
+        http_response_code(400);
         die();
     }
 
@@ -40,5 +42,8 @@
         echo "{\"success\": true}";
     }
     else
+    {
         echo "{\"error\": \"Érvénytelen jelszó!\"}";
+        http_response_code(400);
+    }
 ?>

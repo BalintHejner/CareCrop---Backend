@@ -31,23 +31,27 @@
         if ($user_duplicate !== NULL)
         {
             echo "{\"error\": \"A felhasználónév már létezik!\"}";
+            http_response_code(400);
             die();
         }
         if ($email_duplicate !== NULL)
         {
             echo "{\"error\": \"Ezzel az email címmel már létezik fiók!\"}";
+            http_response_code(400);
             die();
         }
 
         if (1 > strlen($sanitized_name) || strlen($sanitized_name) > 256)
         {
             echo "{\"error\": \"Nem megfelelő hosszúságú név!\"}";
+            http_response_code(400);
             die();
         }
 
         if (1 > strlen($sanitized_email) || strlen($sanitized_email) > 256)
         {
             echo "{\"error\": \"Nem megfelelő hosszúságú email!\"}";
+            http_response_code(400);
             die();
         }
 
@@ -60,6 +64,7 @@
             $conn->query($sql);
         } catch (Exception $e) {
             echo "{\"success\": false}";
+            http_response_code(400);
             die();
         }
         
@@ -68,6 +73,7 @@
     else
     {
         echo "{\"error\": \"Érvénytelen adatok!\"}";
+        http_response_code(400);
     }
 
 

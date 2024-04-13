@@ -22,6 +22,7 @@
             $conn->query($sql);
         } catch (Exception $e) {
             echo "{\"success\": false}";
+            http_response_code(400);
             die();
         }
 
@@ -34,6 +35,7 @@
             $conn->query($sql);
         } catch (Exception $e) {
             echo "{\"success\": false}";
+            http_response_code(400);
             die();
         }
 
@@ -47,6 +49,8 @@
             $result = $conn->query($sql);
         } catch (Exception $e) {
             echo "{\"success\": false}";
+            http_response_code(400);
+            die();
         }
         while($row = $result->fetch_assoc()) 
             array_push($results, $row);
