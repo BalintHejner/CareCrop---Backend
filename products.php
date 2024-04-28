@@ -19,8 +19,9 @@
         $sanitized_name = trim(htmlspecialchars($_REQUEST["name"]));
         $sanitized_quality = trim(htmlspecialchars($_REQUEST["quality"]));
         $sanitized_price = (int)trim(htmlspecialchars($_REQUEST["price"]));
+        $sanitized_quantity = (int)trim(htmlspecialchars($_REQUEST["quantity"]));
 
-        $sql = "INSERT INTO products VALUES ('" . $id . "', '" . $sanitized_season . "', '" . $sanitized_name . "', '" . $sanitized_quality . "', '" . $sanitized_price . "');";
+        $sql = "INSERT INTO products VALUES ('" . $id . "', '" . $sanitized_season . "', '" . $sanitized_name . "', '" . $sanitized_quality . "', '" . $sanitized_price . "', '" . $sanitized_quantity . "');";
         try {
             $conn->query($sql);
         } catch (Exception $e) {
